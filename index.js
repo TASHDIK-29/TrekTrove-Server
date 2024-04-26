@@ -51,6 +51,15 @@ async function run() {
         })
 
 
+        app.get('/myAdds/:email', async(req, res) =>{
+            const email = req.params.email;
+            const query ={email: email};
+            const cursor = touristSpotCollections.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
 
 
 
