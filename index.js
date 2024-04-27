@@ -103,6 +103,14 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/countries/:country', async (req, res) => {
+            const country = req.params.country;
+            const query = { counter: country };
+            const cursor = touristSpotCollections.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
 
 
 
