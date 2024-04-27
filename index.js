@@ -31,39 +31,67 @@ async function run() {
         const database = client.db("TouristSpotDB");
         const touristSpotCollections = database.collection("touristSpots");
 
-        app.get('/spots', async(req, res) =>{
+        app.get('/spots', async (req, res) => {
             const cursor = touristSpotCollections.find();
             const result = await cursor.toArray();
             res.send(result);
         })
 
-        app.post('/spots', async(req, res) =>{
+        app.post('/spots', async (req, res) => {
             const spot = req.body;
             const result = await touristSpotCollections.insertOne(spot);
             res.send(result);
         })
 
-        app.get('/spots/:id', async(req, res) =>{
+        app.get('/spots/:id', async (req, res) => {
             const id = req.params.id;
-            const query ={_id: new ObjectId(id)};
+            const query = { _id: new ObjectId(id) };
             const result = await touristSpotCollections.findOne(query);
             res.send(result);
         })
 
 
-        app.get('/myAdds/:email', async(req, res) =>{
+        app.get('/myAdds/:email', async (req, res) => {
             const email = req.params.email;
-            const query ={email: email};
+            const query = { email: email };
             const cursor = touristSpotCollections.find(query);
             const result = await cursor.toArray();
             res.send(result);
         })
 
-        app.delete('/spots/:id', async(req, res) =>{
+        app.delete('/spots/:id', async (req, res) => {
             const id = req.params.id;
-            const query ={_id: new ObjectId(id)};
+            const query = { _id: new ObjectId(id) };
             const result = await touristSpotCollections.deleteOne(query);
             res.send(result);
+        })
+
+
+        app.put('/spots/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const updatedSpot = req.body;
+
+            const spot = {
+                $set: {
+                    avgCost : updatedSpot.avgCost ,
+                    counter : updatedSpot.counter ,
+                    description : updatedSpot.description ,
+                    // email : updatedSpot.email ,
+                    location : updatedSpot.location ,
+                    photo : updatedSpot.photo ,
+                    seasonality : updatedSpot.seasonality ,
+                    spotName : updatedSpot.spotName ,
+                    travelTime : updatedSpot.travelTime ,
+                    // userName : updatedSpot.userName ,
+                    visitorsPerYear : updatedSpot.visitorsPerYear
+                       
+                }
+            }
+
+            const result = await touristSpotCollections.updateOne(query, spot);
+            res.send(result);
+
         })
 
 
