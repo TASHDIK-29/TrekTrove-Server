@@ -30,6 +30,7 @@ async function run() {
 
         const database = client.db("TouristSpotDB");
         const touristSpotCollections = database.collection("touristSpots");
+        const countryCollection = database.collection("country");
 
         app.get('/spots', async (req, res) => {
             const cursor = touristSpotCollections.find();
@@ -92,6 +93,14 @@ async function run() {
             const result = await touristSpotCollections.updateOne(query, spot);
             res.send(result);
 
+        })
+
+
+        // Country
+        app.get('/country', async(req, res) =>{
+            const cursor = countryCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
         })
 
 
