@@ -76,6 +76,7 @@ async function run() {
             const spot = {
                 $set: {
                     avgCost : updatedSpot.avgCost ,
+                    intAvgCost : updatedSpot.intAvgCost ,
                     counter : updatedSpot.counter ,
                     description : updatedSpot.description ,
                     // email : updatedSpot.email ,
@@ -107,6 +108,13 @@ async function run() {
             const country = req.params.country;
             const query = { counter: country };
             const cursor = touristSpotCollections.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // sort
+        app.get('/sort', async (req, res) => {
+            const cursor = touristSpotCollections.find().sort({ intAvgCost : -1 });
             const result = await cursor.toArray();
             res.send(result);
         })
