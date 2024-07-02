@@ -18,7 +18,7 @@ To showcase the best tourist spots in South Asia, our Tourism Management platfor
 ## Technologies
 
 * Node.js
-* Exress.js
+* Express.js
 * MongoDB
 * JavaScript 
 
